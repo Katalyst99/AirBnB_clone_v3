@@ -68,7 +68,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -86,3 +86,27 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test for method to retrieve object"""
+        user = User(email='adonis@g.com', password='Big',
+                    first_name='Adonis', last_name="Buff")
+        user .save()
+        state = State(name='Michigan')
+        state.save()
+        self.assertEqual(models.storage.get("User", user.id), user)
+        self.assertEqual(models.storage.get("State", state.id), state)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test for method to count the number of objects in storage"""
+        init_user = models.storage.count("User")
+        init_state = models.storage.count("State")
+        user = User(email='adonis@g.com', password='Big',
+                    first_name='Adonis', last_name="Buff")
+        user .save()
+        state = State(name='Michigan')
+        state.save()
+        self.assertEqual(models.storage.count("User"), init_user + 1)
+        self.assertEqual(models.storage.count("State"), init_state + 1)
