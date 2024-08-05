@@ -10,7 +10,7 @@ from models.state import State
 @app_views.route('/states', strict_slashes=False)
 def retrieve_states():
     """Retrieves the list of all State objects"""
-    states = storage.all('State').values()
+    states = storage.all(State).values()
     stateList = []
     for st in states:
         stateList.append(st.to_dict())
@@ -20,7 +20,7 @@ def retrieve_states():
 @app_views.route('/states/<state_id>', strict_slashes=False)
 def retrieve_stateobj(state_id):
     """Retrieves a State object"""
-    st = storage.get('State', state_id)
+    st = storage.get(State, state_id)
     if st:
         return jsonify(st.to_dict())
     else:
@@ -31,7 +31,7 @@ def retrieve_stateobj(state_id):
                  strict_slashes=False)
 def removes_stateobj(state_id):
     """Deletes a State object"""
-    st = storage.get('State', state_id)
+    st = storage.get(State, state_id)
     if st:
         storage.delete(st)
         storage.save()
@@ -60,7 +60,7 @@ def make_state():
                  strict_slashes=False)
 def update_state(state_id):
     """Updates a State object"""
-    st = storage.get('State', state_id)
+    st = storage.get(State, state_id)
     user_req = request.get_json()
 
     if st is None:
@@ -71,5 +71,5 @@ def update_state(state_id):
     for k, v in user_req.items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(st, k, v)
-    storage.save()
+    st.save()
     return jsonify(st.to_dict()), 200
