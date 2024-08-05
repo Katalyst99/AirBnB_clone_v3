@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""A view for State objects that handles all default RESTFul API actions"""
+"""A view for Amenity objects that handles all default RESTFul API actions"""
 from api.v1.views import app_views
 from flask import jsonify
 from flask import abort, request
