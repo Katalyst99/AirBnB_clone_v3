@@ -4,6 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
+from flask import jsonify
 from os import getenv
 
 app = Flask(__name__)
@@ -15,6 +16,13 @@ app.register_blueprint(app_views)
 def handle_teardown(exception):
     """Method to handle teardown"""
     storage.close()
+
+
+@app.errorhandler(404)
+def handle_error(e):
+    """Handler  for 404 errors that returns a JSON-formatted 404"""
+    error_json = jsonify(error='Not found'), 404
+    return error_json
 
 
 if __name__ == "__main__":
