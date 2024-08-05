@@ -70,8 +70,8 @@ def update_state(state_id):
     if not st:
         abort(404)
     if not user_req:
-        message = jsonify('Not a JSON'), 400
-        return message
+        mes = jsonify('Not a JSON'), 400
+        return mes
 
     for k, v in user_req.items():
         if k not in ['id', 'created_at', 'updated_at']:
