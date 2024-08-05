@@ -57,7 +57,7 @@ def make_state():
     else:
         state_new = State(**user_req)
         state_new.save()
-        return jsonify(state_new.to_dict()), 200
+        return jsonify(state_new.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'],
