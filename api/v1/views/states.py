@@ -10,7 +10,7 @@ from models.state import State
 @app_views.route('/states', strict_slashes=False)
 def retrieve_states():
     """Retrieves the list of all State objects"""
-    states = storage.all(State).values()
+    states = storage.all('State').values()
     stateList = []
     for st in states:
         stateList.append(st.to_dict())
@@ -48,7 +48,7 @@ def make_state():
     """Creates a State"""
     user_req = request.get_json()
 
-    if not user_req:
+    if user_req is None:
         message = jsonify('Not a JSON'), 400
         return message
     if "name" not in user_req:
@@ -67,7 +67,7 @@ def update_state(state_id):
     user_req = request.get_json()
     st = storage.get('State', state_id)
 
-    if not st:
+    if st is None:
         abort(404)
     if not user_req:
         mes = jsonify('Not a JSON'), 400
