@@ -48,12 +48,12 @@ def make_state():
     """Creates a State"""
     user_req = request.get_json()
 
-    if user_req is None:
+    if not user_req:
         message = jsonify('Not a JSON'), 400
         return message
     if "name" not in user_req:
-        message2 = jsonify('Missing name'), 400
-        return message2
+        message = jsonify('Missing name'), 400
+        return message
 
     state_new = State(**user_req)
     state_new.save()
@@ -64,17 +64,17 @@ def make_state():
                  strict_slashes=False)
 def update_state(state_id):
     """Updates a State object"""
-    user_req = request.get_json()
     st = storage.get('State', state_id)
+    user_req = request.get_json()
 
     if st is None:
         abort(404)
     if not user_req:
-        mes = jsonify('Not a JSON'), 400
-        return mes
+        message = jsonify('Not a JSON'), 400
+        return message
 
     for k, v in user_req.items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(st, k, v)
-    st.save()
+    storage.save()
     return jsonify(st.to_dict()), 200
