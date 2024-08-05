@@ -22,8 +22,7 @@ def retrieve_stateobj(state_id):
     """Retrieves a State object"""
     st = storage.get('State', state_id)
     if st:
-        st = st.to_dict()
-        return jsonify(st)
+        return jsonify(st.to_dict())
     else:
         abort(404)
 
@@ -33,11 +32,10 @@ def retrieve_stateobj(state_id):
 def removes_stateobj(state_id):
     """Deletes a State object"""
     st = storage.get('State', state_id)
-    Dict = {}
     if st:
         storage.delete(st)
         storage.save()
-        return jsonify(Dict), 200
+        return jsonify({}), 200
     else:
         abort(404)
 
@@ -49,11 +47,9 @@ def make_state():
     user_req = request.get_json()
 
     if not user_req:
-        message = jsonify('Not a JSON'), 400
-        return message
+        return jsonify({"error": "Not a JSON"}), 400
     if "name" not in user_req:
-        message = jsonify('Missing name'), 400
-        return message
+        return jsonify({"error": "Missing name"}), 400
 
     state_new = State(**user_req)
     state_new.save()
@@ -70,8 +66,7 @@ def update_state(state_id):
     if st is None:
         abort(404)
     if not user_req:
-        message = jsonify('Not a JSON'), 400
-        return message
+        return jsonify({"error": "Not a JSON"}), 400
 
     for k, v in user_req.items():
         if k not in ['id', 'created_at', 'updated_at']:
