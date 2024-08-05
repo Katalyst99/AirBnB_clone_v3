@@ -23,7 +23,7 @@ def retrieve_stateobj(state_id):
     st = storage.get('State', state_id)
     if st:
         st = st.to_dict()
-        return jsonify(st), 200
+        return jsonify(st)
     else:
         abort(404)
 
