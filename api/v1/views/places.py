@@ -17,7 +17,7 @@ def retrieve_place(city_id):
     if not city:
         abort(404)
     for place in city.places:
-        cityList.append(place.to_dict())
+        placeList.append(place.to_dict())
     return jsonify(placeList)
 
 
