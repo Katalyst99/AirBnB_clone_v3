@@ -51,13 +51,13 @@ def make_state():
     if not user_req:
         message = jsonify('Not a JSON'), 400
         return message
-    elif "name" not in user_req:
+    if "name" not in user_req:
         message2 = jsonify('Missing name'), 400
         return message2
-    else:
-        state_new = State(**user_req)
-        state_new.save()
-        return jsonify(state_new.to_dict()), 201
+
+    state_new = State(**user_req)
+    state_new.save()
+    return jsonify(state_new.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'],
